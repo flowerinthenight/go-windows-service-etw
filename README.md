@@ -10,6 +10,6 @@ This service is based on [this](https://godoc.org/golang.org/x/sys/windows/svc/e
 
 * Do not rely on external DLL.
 
-# Licence
+# License
 
 [The MIT License](./LICENSE.md)
