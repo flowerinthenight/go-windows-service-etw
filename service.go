@@ -30,7 +30,7 @@ loop:
 	for {
 		select {
 		case <-tick:
-			elog.Info(1, "beep")
+			traceETW("beep")
 		case c := <-r:
 			switch c.Cmd {
 			case svc.Interrogate:

@@ -18,11 +18,18 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"regexp"
+	"runtime"
 	"strings"
 	"syscall"
 	"unsafe"
 
 	"golang.org/x/sys/windows/svc"
+)
+
+var (
+	mod  *syscall.LazyDLL
+	proc *syscall.LazyProc
 )
 
 func usage(errmsg string) {
@@ -35,18 +42,18 @@ func usage(errmsg string) {
 	os.Exit(2)
 }
 
+func traceETW(v ...interface{}) {
+	pc, _, _, _ := runtime.Caller(1)
+	fn := runtime.FuncForPC(pc)
+	fno := regexp.MustCompile(`^.*\.(.*)$`)
+	fnName := fno.ReplaceAllString(fn.Name(), "$1")
+	m := fmt.Sprint(v...)
+	_, _, _ = proc.Call(uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr("[" + fnName + "] " + m))))
+}
+
 func main() {
-	var mod = syscall.NewLazyDLL("disptrace.dll")
-	var proc = mod.NewProc("ETWTrace")
-
-	ret, _, _ := proc.Call(
-		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr("mod"))),
-		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr("file"))),
-		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr("func"))),
-		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr("key"))),
-		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr("val"))))
-
-	fmt.Printf("Return: %d\n", ret)
+	mod = syscall.NewLazyDLL("disptrace.dll")
+	proc = mod.NewProc("ETWTrace")
 
 	const svcName = "myservice"
 
