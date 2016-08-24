@@ -1,6 +1,6 @@
 # Windows service in Go
 
-This service is based on [this](https://godoc.org/golang.org/x/sys/windows/svc/example) example. The aim is to have a minimal ETW support for real-time logging which is helpful in debugging Windows.
+This service is based on [this](https://godoc.org/golang.org/x/sys/windows/svc/example) example. The aim is to have a minimal ETW support for real-time logging which is helpful in debugging Windows services.
 
 # ETW DLL
 
