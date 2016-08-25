@@ -34,7 +34,7 @@ go-windows-service-etw.exe remove
 
 # TODO
 
-* Do not rely on external DLL.
+- [ ] Do not rely on external DLL.
 
 # License
 
