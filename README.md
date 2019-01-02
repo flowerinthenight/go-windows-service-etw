@@ -35,7 +35,3 @@ go-windows-service-etw.exe remove
 # TODO
 
 - [ ] Do not rely on external DLL.
-
-# License
-
-[The MIT License](./LICENSE.md)
